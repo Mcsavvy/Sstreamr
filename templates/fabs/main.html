@@ -1,0 +1,33 @@
+<!-- MOBILE -->
+{% block ig_fab %}
+<div class="floating-action" id="ig-fab">
+    <a href="#" class="btn btn-floating fab-item rounded-circle bd-sh-1" title="Instagram" onclick="Instagram()">
+      <i class="fab fa-instagram stroke-bg-1"></i>
+    </a>
+</div>
+{% endblock %}{% block theme_fab %}
+<div id="theme-control" class="floating-action">
+    <button class="btn btn-floating fab-item rounded-circle bd-sh-1" onclick="{Theme.toggle(); $(this).children('i').toggleClass('fa-moon fa-sun')}">
+      <i class="fas" id="theme-fab"></i>
+    </button>
+</div>
+<script type="text/javascript">
+  if (Theme.isDark()){
+    $('#theme-fab').addClass('fa-sun')
+  } else {
+    $('#theme-fab').addClass('fa-moon')
+  }
+</script>
+{% endblock %}{% block phone_fab %}
+<div class="floating-action" id="phone-fab">
+  <a href="tel:2348088792254" class="btn btn-floating fab-item rounded-circle bd-sh-1">
+    <i class="fas fa-phone"></i>
+  </a>
+</div>
+{% endblock %}{% block dm_fab %}
+<div class="floating-action" id="email-fab">
+  <a href="mailto:phishink5@gmail.com" class="btn btn-floating fab-item rounded-circle bd-sh-1">
+    <i class="fas fa-paper-plane"></i>
+  </a>
+</div>
+{% endblock %}

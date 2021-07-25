@@ -1,0 +1,44 @@
+.brand:before {
+    content: 'S';
+    font-family: 'Supermercado One';
+    font-size: 3rem;
+    border: none;
+    padding: none;
+    margin: none;
+    color: var(--pm)
+}
+
+.special {
+    font-family: 'Supermercado One';
+}
+
+.clickable {
+    overflow: hidden;
+    position: relative;
+    transform: translate3d(0, 0, 0)
+}
+
+.clickable:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: auto;
+    pointer-events: none;
+    background-image: radial-gradient(circle, var(--bg) 10%, transparent 10.01%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: scale(10, 10);
+    opacity: 0;
+    transition: transform .5s, opacity 1.5s
+}
+
+.clickable:active:before {
+    transform: scale(0, 0);
+    opacity: .1;
+    transition: 0s
+}

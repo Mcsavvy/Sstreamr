@@ -1,0 +1,19 @@
+{% include 'modals/add_instagram.html' %}
+{% include 'modals/edit_instagram.html' %}
+<script>
+    {% if not user.node.instagram %}
+    const Instagram = function () {
+        notify.toast(
+            'We would love to keep you updated on latests gists.',
+            {title:'Let\'s connect!',type:'ig'}
+        ).then(function(){
+            $('#modal--add-instagram').modal('show')
+        })
+        
+    }
+    {% else %}
+    const Instagram = function () {
+        $('#modal--edit-instagram').modal('show');
+    }
+    {% endif %}
+</script>

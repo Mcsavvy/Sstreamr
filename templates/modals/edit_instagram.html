@@ -1,0 +1,45 @@
+<div class="modal fade" id="modal--edit-instagram" tabindex="-1" role="dialog" aria-labelledby="modal--edit-instagram_label"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content bg-bg">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal--edit-instagram_label">Instagram</h5>
+                <button type="button" class="pm close" id="modal--edit-instagram_close" data-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <span class="r-bg">
+                        Do you wish to update or remove your instagram?
+                    </span>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-evenly">
+                <button type="button" class="btn rounded-pill bd-ig-oran-1" onclick="{
+                    $('#modal--edit-instagram').modal('hide');
+                    notify.toast(
+                            'You would no longer receive updates from us. You can always add your instagram again.',
+                            {title:'Instagram removed..',type:'ig'}
+                    ).then(function () {
+                        xEvent('/xevent', 'remove:instagram').then(function () {
+                            document.location = '/auth/redirect///'
+                        })
+                    })
+                }">remove</button>
+                <button type="button" class="btn rounded-pill bg-ig bg" onclick="{
+                    $('#modal--edit-instagram').modal('hide');
+                    notify.toast(
+                        'Your instagram profile would be updated ASAP!',
+                        {title:'Hey, {{user.username}}...',type:'ig'}
+                    ).then(function () {
+                        xEvent('/xevent', 'update:instagram').then(function () {
+                            document.location = '/auth/redirect///'
+                        })
+                    })
+                }">update</button>
+            </div>
+        </div>
+    </div>
+</div>

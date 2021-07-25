@@ -1,0 +1,149 @@
+<div class="container">
+    <ul class="d-flex justify-content-evenly align-items-end social-network social-circle">
+        {% comment %}
+        <!-- <li><a href="#" class="icoFacebook" onload="event.preventDefault()" title="Facebook" onclick="{
+            $('.social-input').not('#facebook-input').slideUp();
+            $('#facebook-input').slideToggle()
+        }"><i class="fab fa-facebook-f"></i></a></li>
+        <li><a href="#" class="icoTwitter" title="Twitter" onclick="{
+            $('.social-input').not('#twitter-input').slideUp();
+            $('#twitter-input').slideToggle()
+        }"><i class="fab fa-twitter"></i></a></li> -->
+        {% endcomment %}
+        <li>
+            <span class="special r-bg">Eat up our instagram api</span>
+            <a href="#" class="icoInstagram" title="Instagram" onclick="{
+                $('.social-input').not('#instagram-input').slideUp();
+                $('#instagram-input').slideToggle()
+            }"><i class="fab fa-instagram"></i></a>
+        </li>
+    </ul>
+</div>
+
+<div class="container">
+    {% comment %}
+    <!-- <div class="social-input text-center xhide" id="facebook-input">
+        <span class="r-bg">Stream posts from facebook</span>
+        <input type="text" class="rounded-pill bd-sc-2 dk-bg w-100 pl-3" placeholder="your facebook username..."
+            value="{{user.node.facebook|default:''}}" oninput="{
+            if (this.value.length > 5){
+                $(this).siblings('button').slideDown()
+            } else {
+                $(this).siblings('button').slideUp()
+            }
+        }">
+        <button class="btn rounded-pill w-100 bg mt-2 xhide clickable" style="background-color: #3B5998;" onclick="{
+            event.preventDefault();
+            notify.toast(
+                'You would be notified as soon as it is confirmed',
+                {
+                    title: 'Checking your facebook...',
+                    type: 'info'
+                }
+            ).then(function(){
+                xEvent(
+                    '/xevent/',
+                    'set:social-handle',
+                    `name=facebook&&value=${$(this).siblings('input').val()}`
+                ).then(function(response){
+                    if ('message' in response){
+                        arguments = argParser(response.message)
+                        notify.toast(
+                            arguments.args[0],
+                            arguments.kwargs
+                        ).then(function(){
+                            if ('reload' in response && response.reload){
+                                document.location = `/auth/redirect///`
+                            }
+                        })
+                    }
+                })
+            });
+            $(this).siblings('input').val('');
+            $('.social-input').slideUp()
+        }">Go</button>
+    </div>
+    <div class="social-input text-center xhide" id="twitter-input">
+        <span class="r-bg">View trends from twitter</span>
+        <input type="text" class="rounded-pill bd-sc-2 dk-bg w-100 pl-3" placeholder="your twitter username..."
+            value="{{user.node.twitter|default:''}}" oninput="{
+            if (this.value.length > 5){
+                $(this).siblings('button').slideDown()
+            } else {
+                $(this).siblings('button').slideUp()
+            }
+        }">
+        <button class="btn rounded-pill w-100 bg mt-2 xhide clickable" style="background-color: #33ccff;" onclick="{
+            event.preventDefault();
+            notify.toast(
+                'You would be notified as soon as it is confirmed',
+                {
+                    title: 'Checking your twitter...',
+                    type: 'info'
+                }
+            ).then(function(){
+                xEvent(
+                    '/xevent/',
+                    'set:social-handle',
+                    `name=twitter&&value=${$(this).siblings('input').val()}`
+                ).then(function(response){
+                    if ('message' in response){
+                        arguments = argParser(response.message)
+                        notify.toast(
+                            arguments.args[0],
+                            arguments.kwargs
+                        ).then(function(){
+                            if ('reload' in response && response.reload){
+                                document.location = `/auth/redirect///`
+                            }
+                        })
+                    }
+                })
+            });
+            $(this).siblings('input').val('');
+            $('.social-input').slideUp()
+        }">Go</button>
+    </div> -->
+    {% endcomment %}
+    <div class="social-input text-center xhide" id="instagram-input">
+        <span class="r-bg">Get feeds from instagram</span>
+        <input type="text" class="rounded-pill bd-sc-2 dk-bg w-100 pl-3" placeholder="your instagram username..."
+            value="{{user.node.instagram.username|default:''}}" oninput="{
+            if (this.value.length > 5){
+                $(this).siblings('button').slideDown()
+            } else {
+                $(this).siblings('button').slideUp()
+            }
+        }">
+        <button class="btn rounded-pill w-100 bg mt-2 xhide clickable" style="background-color: #bc2a8d;" onclick="{
+            event.preventDefault();
+            notify.toast(
+                'You would be notified as soon as it is confirmed',
+                {
+                    title: 'Checking your instagram...',
+                    type: 'info'
+                }
+            ).then(function(){
+                xEvent(
+                    '/xevent/',
+                    'set:social-handle',
+                    `name=instagram&&value=${$(this).siblings('input').val()}`
+                ).then(function(response){
+                    if ('message' in response){
+                        arguments = argParser(response.message)
+                        notify.toast(
+                            arguments.args[0],
+                            arguments.kwargs
+                        ).then(function(){
+                            if ('reload' in response && response.reload){
+                                document.location = `/auth/redirect///`
+                            }
+                        })
+                    }
+                })
+            });
+            $(this).siblings('input').val('');
+            $('.social-input').slideUp()
+        }">Go</button>
+    </div>
+</div>

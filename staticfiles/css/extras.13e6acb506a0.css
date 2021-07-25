@@ -1,0 +1,124 @@
+body {
+	font-family: "Open Sans";
+	background-color: var(--bg)
+}
+
+/* Floating Action */
+
+/* .fab, .fab:focus, .fab:hover {
+  border-color: var(--dk-bg);
+  color: var(--pm);
+  background-color: var(--r-bg);
+}
+ */
+.fab-active, .fab-active:focus, .fab-active:hover {
+  border-color: var(--sh) !important;
+  color: var(--r-bg) !important;
+  background-color: var(--pm) !important  
+}
+
+.fab-item {
+  background-color: var(--sh) !important;
+  color: var(--pm) !important;
+}
+
+.fab-info-active {
+  animation: none;
+  float: right;
+}
+
+
+div.floating-action-menu > .action-menu {
+    visibility: hidden;
+    transform: translateY(65px);
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+
+    transition: all 300ms linear;
+}
+div.floating-action-menu.active > .action-menu {
+    visibility: visible;
+    transform: translate(0);
+    opacity: 1;
+    padding-bottom: 5px;
+    max-height: 1000px;
+}
+
+div.floating-action-menu > .action-menu > .floating-action {
+    padding-right: 0.45rem;
+}
+
+div.floating-action-menu > .action-menu .btn-floating,
+div.floating-action-menu > .action-menu .badge
+{
+    transform: scale(0.4);
+    transition: all 500ms ease-in-out;
+}
+div.floating-action-menu.active > .action-menu .btn-floating,
+div.floating-action-menu.active > .action-menu .badge
+{
+    transform: scale(1);
+}
+
+div.floating-action-menu > .action-button > .btn-floating {
+    transition: all 500ms linear;
+}
+
+div.floating-action-menu > .action-button > .btn-floating > i {
+    transition: transform 500ms ease-in-out;
+}
+div.floating-action-menu.active > .action-button > .btn-floating > i {
+    transform: rotate(-315deg);
+    color: var(--bg)
+}
+
+.floating-action {
+  margin-top: 5px;
+}
+
+/* INPUT MENU */
+.input--menu-object{
+	color: var(--pm);
+}
+
+.input--menu-selected:after {
+  content: "\f058";
+  display: inline-block;
+}
+.input--menu{
+  background-color: var(--bg);
+}
+
+.input--menu-selected{
+  color: var(--pm);
+  background-color: var(--sh)
+}
+
+.input--menu-selected:hover {
+  color: var(--pm);
+  background-color: var(--bg)
+}
+
+//follow me template
+.made-with-love{
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 10px;
+  font-family: arial;
+  color: #fff;
+  i{
+    font-style: normal;
+    color: #F50057;
+    font-size: 14px;
+    position: relative;
+    top: 2px;
+  }
+  a{
+    color: #fff;
+    text-decoration: none;
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+}

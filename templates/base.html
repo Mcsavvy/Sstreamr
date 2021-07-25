@@ -1,0 +1,214 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    {% include 'head.html' %}
+    <title>Streamr|{{user.username}}</title>
+  </head>
+  <body class="bg-bg r-bg">
+    <header>
+      {% include 'partials/navbar.html' %}
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+  </body>
+  <footer>
+    {% block fab_menu %}
+    <div class="fixed-bottom text-right floating-action-menu" style="bottom: 10px; right: 10px;">
+      <div class="action-menu">
+        {% block fabs %}
+        {% endblock fabs %}
+      </div>
+      <div class="d-block action-button">
+        <button class="btn btn-lg btn-floating fab rounded-circle bg-r-bg" id="fab-trigger" onclick="handleFab(this)">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+    </div>
+    {% endblock %}
+    {% include 'partials/footer.html' %}
+    {% block scripts %}{% endblock %}
+  </footer>
+</html>
+<!DOCTYPE html>
+{% comment %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  {% include 'head.html' %}
+  <title>Streamr|{{user.username}}</title>
+</head>
+  <body>
+    <header class="cd-main-header sticky-top js-cd-main-header">
+      <div class="cd-logo-wrapper">
+        <a href="#0" class="special pm cd-logo"><img src="/static/img/favicon.png" alt="Logo" height="35px"></a>
+      </div>
+      
+      <div class="cd-search js-cd-search">
+        <form>
+          <input class="reset" type="search" placeholder="Search...">
+        </form>
+      </div>
+    
+      <button class="reset cd-nav-trigger js-cd-nav-trigger" aria-label="Toggle menu"><span></span></button>
+    
+      <ul class="cd-nav__list js-cd-nav__list">
+        <li class="cd-nav__item cd-nav__item--has-children cd-nav__item--account js-cd-item--has-children">
+          <a href="#0">
+            <img src="{{ user.node.get_dp_url }}" alt="avatar">
+            <span>Account</span>
+          </a>
+      
+          <ul class="cd-nav__sub-list">
+            <li class="cd-nav__sub-item"><a href="#0" onclick="{
+              event.preventDefault();
+              notify.toast(
+                'you would be logged out from this device',
+                {title:'Logout?',type:'question',confirmText:'yeah',cancelText:'no'}
+              ).then(function(e){
+                if (e == 'confirm'){
+                  document.location = '/auth/logout'
+                }
+              })
+            }">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </header> <!-- .cd-main-header -->
+    
+    <main class="cd-main-content">
+      <nav class="cd-side-nav js-cd-side-nav">
+        <ul class="cd-side__list js-cd-side__list">
+          <li class="cd-side__label"><span>Main</span></li>
+          <li class="cd-side__item cd-side__item--has-children cd-side__item--overview js-cd-item--has-children">
+            <a href="#0">
+              <b class="stroke-pm-1 fas fa-at"></b>
+              &nbsp;{{user.username}}
+            </a>
+            
+            <ul class="cd-side__sub-list">
+              <li class="cd-side__sub-item"><a href="#0">
+                <b class="sc fas fa-code-branch"></b>
+                &nbsp;&nbsp;Linked Accounts
+              </a></li>
+              <li class="cd-side__sub-item"><a href="#0">
+                <b class="sc fas fa-edit"></b>
+                &nbsp;Edit
+              </a></li>
+              <li class="cd-side__sub-item"><a href="#0">
+                <b class="sc fas fa-user-lock"></b>
+                &nbsp;Security
+              </a></li>
+            </ul>
+          </li>
+
+          <li class="cd-side__item cd-side__item--has-children cd-side__item--notifications js-cd-item--has-children">
+            <a href="#0">
+              <b class="stroke-pm-1 fas fa-bell"></b>
+              &nbsp;Notifications
+              <span class="cd-count">3</span>
+            </a>
+            
+            <ul class="cd-side__sub-list">
+              <li class="cd-side__sub-item">
+                <a href="#0">
+                  <b class="sc fas fa-tasks"></b>
+                  &nbsp;All
+                </a>
+              </li>
+              <li class="cd-side__sub-item">
+                <a href="#0">
+                  <b class="sc fas fa-user-circle"></b>
+                  &nbsp;Mine
+                </a>
+              </li>
+              <li class="cd-side__sub-item">
+                <a href="#0">
+                  <b class="sc fas fa-users"></b>
+                  &nbsp;Friends
+                </a>
+              </li>
+              <li class="cd-side__sub-item">
+                <a href="#0">
+                  <b class="sc fas fa-ellipsis-h"></b>
+                  &nbsp;Others
+                </a>
+              </li>
+            </ul>
+          </li>
+      
+          <li class="cd-side__item cd-side__item--has-children cd-side__item--comments js-cd-item--has-children">
+            <a href="#0">
+              <b class="stroke-pm-1 fas fa-chart-line"></b>
+              &nbsp;Activity
+              <span class="cd-count">3</span>
+            </a>
+            <ul class="cd-side__sub-list">
+              <li class="cd-side__sub-item">
+                <a href="#0">
+                  <b class="sc fas fa-paper-plane"></b>
+                  &nbsp;You commented on @plugify__'s tag #beUnspeakable
+                </a>
+              </li>
+              <li class="cd-side__sub-item"><a href="#0">Edit Comment</a></li>
+              <li class="cd-side__sub-item"><a href="#0">Delete Comment</a></li>
+            </ul>
+          </li>
+        </ul>
+      
+        <ul class="cd-side__list js-cd-side__list">
+          <li class="cd-side__label"><span>Action</span></li>
+          <li class="cd-side__btn"><button class="reset" href="#0">+ Button</button></li>
+        </ul>
+      </nav>
+    
+      <div class="cd-content-wrapper">
+        <div class="text-component text-center">
+          <h1>Responsive Sidebar Navigation</h1>
+          <p>👈<a href="https://codyhouse.co/gem/responsive-sidebar-navigation">Article &amp; Download</a></p>
+        </div>
+      </div> <!-- .content-wrapper -->
+    </main> <!-- .cd-main-content -->
+    <script src="/static/navigation/assets/js/util.js"></script> <!-- util functions included in the CodyHouse framework -->
+    <script src="/static/navigation/assets/js/menu-aim.js"></script>
+    <script src="/static/navigation/assets/js/main.js"></script>
+  </body>
+</html>
+<!DOCTYPE html>
+<html lang="en" id="{% if is_mobile %}mobile{% else %}not-mobile{% endif %}">
+  {% include 'head.html' %}
+  <body class="bg-bg">
+    <header class="">
+      {% include 'partials/navbar.html' %}
+    </header>
+    <main style="min-height: 25cm">
+      {% block content %}{% endblock %}
+    </main>
+    <br><br>
+    <footer>
+      {% block fab_menu %}
+      <div class="fixed-bottom text-right floating-action-menu" style="bottom: 10px; right: 10px;">
+        <div class="action-menu">
+          {% block fabs %}
+          {% endblock fabs %}
+        </div>
+        <div class="d-block action-button">
+          <button class="btn btn-lg btn-floating fab rounded-circle bg-pm" id="fab-trigger" onclick="handleFab(this)">
+            <i class="fas fa-plus r-bg"></i>
+          </button>
+        </div>
+      </div>
+      {% endblock %}
+      {% include 'partials/footer.html' %}
+    </footer>
+  </body>
+  <style type="text/css">
+    {% if is_mobile %}
+    {% else %}
+    {% endif %}
+    {{style|safe}}
+  </style>
+</html>
+{% endcomment %}

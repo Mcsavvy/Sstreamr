@@ -1,0 +1,85 @@
+<div class="modal fade" id="modal--edit-profile" tabindex="-1" role="dialog" aria-labelledby="modal--edit-profile_label"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content bg-bg">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal--edit-profile_label">Edit Profile</h5>
+                <button type="button" class="pm close" id="modal--edit-profile_close" data-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="username" class="col-form-label r-bg">username</label>
+                    <input
+                    type="text"
+                    class="form-control rounded-pill bd-dk-bg-1 bg-lt-bg"
+                    value="{{user.username}}"
+                    id="username"
+                    placeholder="enter a new username">
+                </div>
+                <div class="form-group">
+                    <label for="email" class="col-form-label r-bg">email</label>
+                    <input 
+                    class="form-control rounded-pill bd-dk-bg-1 bg-lt-bg"
+                    value="{{user.email}}" id="email" type="email"
+                    placeholder="enter a new email">
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-form-label r-bg">password</label>
+                    <input
+                    class="form-control rounded-pill bd-dk-bg-1 bg-lt-bg"
+                    id="password" type="password" placeholder="enter a new password">
+                </div>
+                <div class="form-check ml-2">
+                    <input type="checkbox" id="show-password" class="form-check-input" onclick="{
+                        if ($('#password').attr('type') == 'password'){
+                            $('#password').attr('type', 'text')
+                        } else {
+                            $('#password').attr('type', 'password')
+                        }
+                    }">
+                    <label class="form-check-label r-bg" for="show-password">show password?</label>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-evenly">
+                <button type="button" class="btn rounded-pill bg-pm bg" data-dismiss="modal">Discard Changes</button>
+                <button type="button" class="btn rounded-pill bd-pm-1" onclick="{
+                    $('#modal--edit-profile').modal('hide');
+                    notify.toast(
+                        'if the information you provided is valid. Either way, you would be notified',
+                        {
+                            type:'info',
+                            title:'Your profile would be updated..'
+                        }
+                    ).then(function(){
+                        xEvent(
+                            '/auth/xevent',
+                            'edit:profile',
+                            `username=${$('#username').val()}&&email=${$('#email').val()}&&password=${$('#password').val()}`
+                        ).then(function(response){
+                            if ('message' in response){
+                                arguments = argParser(response.message)
+                                notify.toast(
+                                    arguments.args[0],
+                                    arguments.kwargs
+                                ).then(function(){
+                                    document.location = `/auth/redirect///`
+                                })
+                            }
+                        }, function(){
+                            notify.toast(
+                                'An error occurred while processing your request',
+                                {
+                                    title:'It\'s on us..',
+                                    type:'error'
+                                }
+                            )
+                        })
+                    })
+                }">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>

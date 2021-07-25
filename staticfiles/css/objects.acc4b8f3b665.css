@@ -1,0 +1,135 @@
+:root {
+    --ig-bg: linear-gradient(
+    45deg,
+    #405de6,
+    #5851db,
+    #833ab4,
+    #c13584,
+    #e1306c,
+    #fd1d1d
+  );
+  --ig-blue: #405de6;
+  --ig-purp: #833ab4;
+  --ig-pink: #e1306c;
+  --ig-oran: #fd1d1d;
+}
+
+.brand:before {
+    content: 'S';
+    font-family: 'Supermercado One';
+    font-size: 3rem;
+    border: none;
+    padding: none;
+    margin: none;
+    color: var(--pm)
+}
+
+.special {
+    font-family: 'Supermercado One';
+}
+
+.clickable {
+    overflow: hidden;
+    position: relative;
+    transform: translate3d(0, 0, 0)
+}
+
+.clickable:active {
+    color: var(--bg)
+}
+
+.clickable:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: auto;
+    pointer-events: none;
+    background-image: radial-gradient(circle, var(--bg) 10%, transparent 10.01%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: scale(10, 10);
+    opacity: 0;
+    transition: transform .5s, opacity 1.5s
+}
+
+.clickable:active:before {
+    transform: scale(0, 0);
+    opacity: .1;
+    transition: 0s;
+}
+
+ul.social-network {
+    list-style: none;
+    display: inline;
+    margin-left: 0 !important;
+    padding: 0
+}
+
+ul.social-network li {
+    display: inline;
+    margin: 0 5px
+}
+
+.social-network a.icoFacebook:hover {
+    background-color: #3B5998
+}
+
+.social-network a.icoTwitter:hover {
+    background-color: #33ccff
+}
+
+.social-network a.icoInstagram:hover {
+    background-color: #bc2a8d
+}
+
+.social-network a.icoFacebook:hover i,
+.social-network a.icoTwitter:hover i,
+.social-network a.icoInstagram:hover i {
+    color: #fff
+}
+
+a.socialIcon:hover,
+.socialHoverClass {
+    color: #44BCDD
+}
+
+.social-circle li a {
+    background-color: var(--sc);
+    display: inline-block;
+    position: relative;
+    margin: 0 auto 0 auto;
+    border-radius: 50%;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    font-size: 20px
+}
+
+.social-circle li i {
+    margin: 0;
+    color: var(--bg);
+    line-height: 50px;
+    text-align: center
+}
+
+.social-circle li a:hover i,
+.triggeredHover {
+    transform: rotate(360deg);
+    transition: all 0.2s
+}
+
+.social-circle i {
+    color: var(--sc);
+    background-color: transparent;
+    transition: all 0.8s;
+    transition: all 0.8s
+}
+
+.xhide{
+    display: none;
+}

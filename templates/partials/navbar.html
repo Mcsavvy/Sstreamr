@@ -1,0 +1,69 @@
+{% load static %}
+<!-- Navbar -->
+{% include 'modals/edit_profile.html' %}
+{% include 'partials/socials.html' %}
+<nav class="navbar navbar-expand-lg bg-bg sticky-top" style="border-bottom: 1px solid var(--sh);">
+  <!-- Container wrapper -->
+  <div class="container-fluid">
+    <!-- Toggle button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fas fa-ellipsis-v sc"></i>
+    </button>
+
+    <!-- Collapsible wrapper -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <!-- Navbar brand -->
+      <a class="navbar-brand mt-2 mt-lg-0 special r-bg" href="/">
+
+        <img src="{% static 'img/favicon.png' %}" height="25" alt="" loading="lazy" /> treamr
+      </a>
+      <!-- Left links -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-link" onclick="Instagram()">
+          {% if user.node.instagram %}
+          <span class="r-bg">Update your Instagram</span>
+          {% else %}
+          <span class="r-bg">Add your Instagram</span>
+          {% endif %}
+          <i class="fab fa-instagram ig-pink"></i>
+        </li>
+        <li class="nav-link" data-toggle="modal" data-target="#modal--edit-profile">
+          <span class="r-bg">Edit your profile</span>
+          <i class="fas fa-user-cog pm"></i>
+        </li>
+        <li class="nav-link" onclick="{
+          event.preventDefault();
+          notify.toast(
+            'you would be logged out from this device',
+            {title:'Logout?',type:'question',confirmText:'yeah',cancelText:'no'}
+          ).then(function(e){
+            if (e == 'confirm'){
+              document.location = '/auth/logout'
+            }
+          })
+        }">
+          <span class="r-bg">Logout from this device</span>
+          <i class="fas fa-sign-out-alt pm"></i>
+        </li>
+      </ul>
+      <!-- Left links -->
+    </div>
+    <!-- Collapsible wrapper -->
+
+    <!-- Right elements -->
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="ajax-wrapper"  id="notifications"></div>
+      <a class="text-reset me-3" href="/auth/redirect///">
+        <!-- <span class="sc">Refresh</span> -->
+        <i class="fas fa-sync pm"></i>
+      </a>
+    </div>
+    <!-- Right elements -->
+  </div>
+  <!-- Container wrapper -->
+</nav>
+<!-- Navbar -->
+{% comment %}
+
+{% endcomment %}

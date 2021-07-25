@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid mt-2">
+    <img src="{{user.node.dp}}" height="50rem" class="rounded-circle">
+    <span class="special pm">
+        @{{user.username}}
+        {% if user.node.instagram.verified %}
+        <i class="fas fa-check-circle ig-blue"></i>
+        {% endif %}
+    </span>
+    {% if user.node.instagram.private %}
+    <br>
+    <span class='badge bd-sc-1 rounded'>
+        Private
+    </span>
+    {% endif %}
+    {% if user.node.instagram.bio %}
+    <p class='r-bg mt-1'>
+        <i class="fas fa-feather-alt ig-oran"></i>
+        {{user.node.instagram.bio}}
+    </p>
+    {% endif %}
+    {% if user.node.instagram.link %}
+    <a href="{{user.node.instagram.link}}" class="sc">
+        <i class="fas fa-link ig-pink"></i>
+        {{user.node.instagram.link}}
+    </a>
+    {% endif %}
+    {% for row in youtube %}
+        <div
+        class="youtube-slide row fotorama"
+        data-nav="dots"
+        data-hash="true"
+        data-loop="true"
+        data-autoplay="true"
+        data-keyboard="true"
+        id="youtube-slide-{{row.this|add:1}}"
+        data-width="100%"
+        data-ratio="800/600"
+        data-transition="slide"
+        data-clicktransition="crossfade"
+        data-stopautoplayontouch="true"
+
+        >
+            {% for video in row %}
+                <a
+                href="{{video.get_absolute_url}}"
+                class="youtube-slide-item"
+                data-img="{{video.thumbnail}}"
+                data-caption="{{video.title}}"
+                id="youtube-video-{{video.ID}"}>
+                    <img src="{{video.thumbnail}}">
+                </a>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+{% block fabs %}
+{% include 'fabs/main.html' %}
+{% endblock %}
+{% block scripts %}
+<script>
+    // $('.youtube-slide').slick({
+    //     infinite: true,
+    //     slidesToShow: 3,
+    //     slidesToScroll: 3
+    // });
+</script>
+{% endblock %}
