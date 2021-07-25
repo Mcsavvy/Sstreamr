@@ -202,7 +202,7 @@ class Create(View):
             user.set_password(request.POST["password"].strip())
             nodify(user)
             user.node.notify(
-                'Welcome to unlimited Sstreaming. Feel free to indulge your senses<i class=\'fas fa-heart pm\'></i>'
+                'Welcome to unlimited Sstreaming. Feel free to indulge your senses'
             )
             user.node.notify(
                 'Ssteamr works best if you have an instagram account.'

@@ -28,7 +28,7 @@
       notify.snackbar(
         '{{x.message}}',
         {
-          type: '{{x.level}}',
+          type: '{{x.level|safe}}',
           interaction: true,
           actionText: 'okay',
           action: function(){
@@ -41,7 +41,7 @@
       getNotifications({{x.id}})
     }">
         <div class="text">
-            <small class="r-bg">{{x.message|truncatechars:50}}</small>
+            <small class="r-bg">{{x.message|truncatechars:50|safe}}</small>
             <p class="text-muted">
                 {% if x.level == 'error' %}
                 <i class="fas fa-eye-slash text-danger mr-2"></i>
@@ -56,7 +56,7 @@
     {% for x in notifications.1 %}
     <div class="notifications-item" onclick="{
       notify.snackbar(
-        '{{x.message}}',
+        '{{x.message|safe}}',
         {
           type: '{{x.level}}',
           interaction: true,

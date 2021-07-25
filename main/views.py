@@ -55,7 +55,7 @@ class Main(View):
         )
 
         context = {
-            "youtube": youtube_videos_grid
+            "youtube": youtube_videos_grid[:10]
         }
         response = render(request, "main/landing.html", context)
         return response
