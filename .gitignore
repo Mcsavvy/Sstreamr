@@ -1,3 +1,5 @@
 .env
 setup.sh
 instauto.git
+.vscode
+wget.log

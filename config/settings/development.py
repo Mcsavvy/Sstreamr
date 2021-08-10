@@ -1,5 +1,6 @@
 import hashlib
 from .main import *
+import django_heroku
 
 
 def make_key(key, key_prefix, version):
@@ -69,3 +70,5 @@ DATABASES = {
 }
 
 IGAUTH = 'hood@ins.com'
+
+django_heroku.settings(locals())
