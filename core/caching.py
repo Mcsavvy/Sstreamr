@@ -26,28 +26,39 @@ class CachedObject:
         ) | settings
         self._key = key
 
+    def __repr__(self) -> str:
+        s = self.settings
+        return f"CachedObject({self._key}, caching_to={s['cache']}, timeout={s['timeout']}, version={s['version']})"
+
     def set(
         self,
         value,
-        version=None,
-        timeout=None
+        **settings
     ):
-        version = version or self.settings['version']
-        timeout = timeout or self.settings['timeout']
-        self.settings['cache'].set(
-            self._key, value, timeout=timeout, version=version
+        settings.get('cache', self.settings['cache']).set(
+            self._key, value,
+            timeout=settings.get('timeout', self.settings['timeout']),
+            version=settings.get('version', self.settings['version'])
         )
 
     def get(
         self,
         default=None,
-        version=None,
-        timeout=None
+        **settings
     ):
-        version = version or self.settings['version']
-        timeout = timeout or self.settings['timeout']
-        _get = self.settings['cache'].get(self._key, version=version)
+        _get = settings.get('cache', self.settings['cache']).get(
+            self._key,
+            version=settings.get('version', self.settings['version'])
+        )
         if _get is None and default is not None:
-            self.set(default, version=version, timeout=timeout)
-            return self.settings['cache'].get(self._key, default, version)
+            self.set(
+                default,
+                version=settings.get('version', self.settings['version']),
+                timeout=settings.get('timeout', self.settings['timeout']),
+            )
+            return self.settings['cache'].get(
+                self._key,
+                default,
+                version=settings.get('version', self.settings['version']),
+            )
         return _get

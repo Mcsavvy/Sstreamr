@@ -1,0 +1,26 @@
+<div class="d-flex flex-row flex-no-wrap mb-2 overflow-auto pb-1">
+    {% for video in slide %}
+    <a href="#instagram-post-{{video.post_id}}" class="col-auto">
+        <img class="rounded-circle img-thumbnail" src="{{video.thumbnail.url}}" height="100rem" width="100rem">
+    </a>
+    {% endfor %}
+</div>
+<div class="row flex-row flex-no-wrap">
+    {% for video in slide %}
+    <div class="instagram-slide-item col" id="instagram-post-{{video.post_id}}" style="width: fit-content;">
+        {{video.embed_src|safe}}
+    </div>
+    {% endfor %}
+</div>
+<div class="d-flex justify-content-center mt-4 mb-4">
+    <button class="btn rounded-pill bd-r-bg-1 mr-4"
+    {%if slide.slide == 1%}disabled{%endif%} onclick="feeds.instagram({{slide.slide|add:-1}})">
+        <i class="fas fa-angle-double-left"></i>
+    </button>
+    <button class="btn rounded-pill bd-r-bg-1"
+    {%if slide.slide == slide.parent|length%}disabled{%endif%}
+    onclick="feeds.instagram({{slide.slide|add:1}})"
+    >
+        <i class="fas fa-angle-double-right"></i>
+    </button>
+</div>

@@ -1,8 +1,8 @@
 darkmode = {
-    primary: '#00aff0',
-    secondary: '#8bc5dbc7',
-    shadow: '#8a96a31f',
-    background: 'black',
+    primary: '#0094F8',
+    secondary: '#1469ba8c',
+    shadow: '#2d495d',
+    background: '#161618',
     root: document.querySelector(':root'),
     set: function(color, abbr){
         this.root.style.setProperty(abbr || `--${color}`, this[color] || 'red')
@@ -32,10 +32,10 @@ darkmode = {
 }
 
 lightmode = {
-    primary: '#00aff0',
-    secondary: '#0b445980',
-    shadow: '#8a96a31f',
-    background: 'white',
+    primary: '#0094F8',
+    secondary: '#1469ba8c',
+    shadow: '#dbe7f0',
+    background: '#FFFFFF',
     root: document.querySelector(':root'),
     set: function(color, abbr){
         this.root.style.setProperty(abbr || `--${color}`, this[color] || 'red')

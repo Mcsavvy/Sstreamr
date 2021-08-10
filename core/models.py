@@ -1,14 +1,12 @@
 from .utils import Attr
-from nodes.models import (
+from apps.nodes.models import (
     Node, Notification, User
 )
-from feeds.models import (
-    YouTube
-)
 from django.contrib.auth.models import Group
-from socials.models import (
-    Instagram
+from apps.socials.models import (
+    Instagramprofile
 )
+from apps.nodes.models import Node
 
 
 class Model:
@@ -100,33 +98,3 @@ class Model:
         if Return != self.Return["success"]:
             return Return
         return new_instance
-
-
-def nodify(instance: User) -> Node:
-    user = instance
-    node, created = Node.objects.get_or_create(
-        user=user
-    )
-    if created:
-        user.node = node
-        user.save()
-    streamr, _ = Group.objects.get_or_create(name='streamer')
-    user.groups.add(streamr)
-    user.save()
-    return user.node
-
-
-class YouTubes(Model):
-    model = YouTube
-
-class Nodes(Model):
-    model = Node
-
-class Instagrams(Model):
-    model = Instagram
-
-class Notifications(Model):
-    model = Notification
-
-class Users(Model):
-    model = User

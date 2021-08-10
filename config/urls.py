@@ -29,7 +29,7 @@ urlpatterns = [
         RedirectView.as_view(url=staticfiles_storage.url("img/favicon.ico")),
     ),
     path('admin/', admin.site.urls),
-    path('auth/', include('authentication.urls')),
-    path('xevent/', include('xevent.urls')),
+    path('auth/', include('apps.authentication.urls')),
+    path('xevent/', include('apps.xevent.urls')),
     path('', include('main.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

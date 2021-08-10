@@ -1,0 +1,26 @@
+<img src="{{user.node.dp}}" height="50rem" class="rounded-circle">
+<span class="special pm">
+    @{{user.username}}
+    {% if user.node.instagram.verified %}
+    <i class="fas fa-check-circle ig-blue"></i>
+    {% endif %}
+</span>
+{% if user.node.instagram.private %}
+<br>
+<span class='badge bd-sc-1 rounded'>
+    Private
+</span>
+{% endif %}
+{% if user.node.instagram.bio %}
+<p class='r-bg mt-1'>
+    <i class="fas fa-feather-alt ig-oran"></i>
+    {{user.node.instagram.bio}}
+</p>
+{% endif %}
+{% if user.node.instagram.link %}
+<a href="{{user.node.instagram.link}}" class="sc d-block">
+    <i class="fas fa-link ig-pink"></i>
+    {{user.node.instagram.link}}
+</a>
+{% endif %}
+    

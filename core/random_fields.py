@@ -4,9 +4,10 @@ import random
 from datetime import timedelta
 from django.utils import timezone
 from PIL import Image, ImageDraw
-from config.settings import MEDIA_ROOT
+from django.conf import settings
 from essential_generators import DocumentGenerator as generator
 
+MEDIA_ROOT = settings.MEDIA_ROOT
 
 class PopulationError(Exception):
     pass

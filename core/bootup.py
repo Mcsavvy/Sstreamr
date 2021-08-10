@@ -1,6 +1,5 @@
 from .models import User
 
-
 def freshStart():
     root = User.objects.create(
         username="root",

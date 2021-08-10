@@ -2,6 +2,8 @@ from collections.abc import Iterable
 from collections import OrderedDict
 import random
 from inspect import signature
+from typing import Mapping, Tuple
+from math import ceil
 
 
 class Attr:
@@ -77,31 +79,45 @@ def _2Dmap(_2Darray):
     return pmap(mapped)
 
 
-def _2Darray(data, c, r, spillover=True, fillempty=None, loop=True):
-    reverse_data = data[::-1]
+def _2Darray(data, shape: Tuple[int, int], spillover=True, fillempty=object, loop=True, shuffle=False):
+    DATA = list(data)
+    if shuffle:
+        random.shuffle(DATA)
     grid = []
+    r, c = shape
+    # iterate through number of rows
     for row in range(r):
+        # each row should be an Attr
         ROW = Attr([])
+        # iterate through the number of column  supposed to be in a row
         for col in range(c):
+            # pop items from the data and append to the column till it is filled
             try:
-                ROW.append(reverse_data.pop())
+                ROW.append(DATA.pop(0))
+            # data is exhausted
             except IndexError:
+                # allows data to be exhausted
                 if spillover:
-                    if fillempty:
+                    # value to use to fill empty column spaces
+                    if fillempty is not object:
+                        # format fillempty with local variables
                         if isinstance(fillempty, str):
-                            debug = fillempty.format(**locals())
-                            ROW.append(debug)
+                            ROW.append(fillempty.format(**locals()))
                         else:
                             ROW.append(fillempty)
+                    # no value set to fill empty spaces
                     else:
-                        if ROW:
-                            grid.append(ROW)
-                        return grid
-        grid.append(ROW)
+                        pass
+                else:
+                    raise IndexError(
+                        f'Can\'t apply {shape} shape on data of length {len(data)}, use data of lenght {r * c} or greater'
+                    )
+        if ROW:
+            grid.append(ROW)
     for index, row in enumerate(grid):
+        row.this = index
+        row.slide = index + 1
         try:
-            row.this = index
-            row.slide = index + 1
             row.next = grid[index + 1]
         except IndexError:
             if loop:
@@ -116,32 +132,36 @@ def _2Darray(data, c, r, spillover=True, fillempty=None, loop=True):
 
 
 def grid(
-    data, num_of_cols=None, num_of_rows=None, *,
+    data, *, height=None, width=None,
     shuffle=False, slide=0, loop=True,
-    spillover=False, fillempty=""
+    spillover=False, fillempty=None
 ):
     if not isinstance(data, Iterable):
-        return [[Attr("Data cannot be parsed.")]]
+        raise TypeError(
+            f'grid: expected an Iterable not {type(data)}'
+        )
     data = list(data)
-    if isinstance(data, dict):
-        return [[Attr("Dict object not accepted.")]]
-    if not any((num_of_rows, num_of_cols)):
-        return [[Attr("No height or width detected.")]]
-    if all((num_of_rows, num_of_cols)):
-        area = (num_of_rows * num_of_cols)
+    if isinstance(data, Mapping):
+        raise TypeError(
+            f'grid: not expecting a mapping'
+        )
+    if not any((height, width)):
+        raise TypeError(
+            f'grid: no height or width specified'
+        )
+    if all((height, width)):
+        area = (height * width)
         data = data[:area]
     else:
-        if num_of_rows:
-            num_of_cols = len(data) // num_of_rows
-        elif num_of_cols:
-            num_of_rows = len(data) // num_of_cols
+        if height:
+            width = ceil(len(data) / height)
+        elif width:
+            height = ceil(len(data) / width)
     grid = _2Darray(
-        data, num_of_cols, num_of_rows,
+        data, shape=(height, width),
         loop=loop, fillempty=fillempty,
-        spillover=spillover
+        spillover=spillover, shuffle=shuffle
     )
-    if shuffle:
-        random.shuffle(grid)
     try:
         return grid[(slide % len(grid)) - 1] if slide else grid
     except ZeroDivisionError:

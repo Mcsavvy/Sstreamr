@@ -1,32 +1,32 @@
 <!-- MOBILE -->
 {% block ig_fab %}
-<div class="floating-action" id="ig-fab">
-    <a href="#" class="btn btn-floating fab-item rounded-circle bd-sh-1" title="Instagram" onclick="Instagram()">
-      <i class="fab fa-instagram stroke-bg-1"></i>
+<div class="floating-action" id="ig-fab" data-toggle="tooltip" data-placement="left" title="setup your instagram">
+    <a href="#" class="btn btn-floating fab-item rounded-circle" title="Instagram" onclick="Instagram()">
+      <i class="fab fa-instagram"></i>
     </a>
 </div>
 {% endblock %}{% block theme_fab %}
-<div id="theme-control" class="floating-action">
-    <button class="btn btn-floating fab-item rounded-circle bd-sh-1" onclick="{Theme.toggle(); $(this).children('i').toggleClass('fa-moon fa-sun')}">
-      <i class="fas" id="theme-fab"></i>
+<div id="theme-fab" class="floating-action" data-toggle="tooltip" data-placement="left" title="toggle darkmode">
+    <button class="btn btn-floating fab-item rounded-circle" onclick="{Theme.toggle(); $(this).children('i').toggleClass('fa-moon fa-sun')}">
+      <i class="fas"></i>
     </button>
 </div>
 <script type="text/javascript">
   if (Theme.isDark()){
-    $('#theme-fab').addClass('fa-sun')
+    $('#theme-fab i').addClass('fa-sun')
   } else {
-    $('#theme-fab').addClass('fa-moon')
+    $('#theme-fab i').addClass('fa-moon')
   }
 </script>
 {% endblock %}{% block phone_fab %}
-<div class="floating-action" id="phone-fab">
-  <a href="tel:2348088792254" class="btn btn-floating fab-item rounded-circle bd-sh-1">
+<div class="floating-action" id="phone-fab" data-toggle="tooltip" data-placement="left" title="reach us on phone">
+  <a href="tel:2348088792254" class="btn btn-floating fab-item rounded-circle ">
     <i class="fas fa-phone"></i>
   </a>
 </div>
 {% endblock %}{% block dm_fab %}
-<div class="floating-action" id="email-fab">
-  <a href="mailto:phishink5@gmail.com" class="btn btn-floating fab-item rounded-circle bd-sh-1">
+<div class="floating-action" id="email-fab" data-toggle="tooltip" data-placement="left" title="send us a direct message">
+  <a href="mailto:phishink5@gmail.com" class="btn btn-floating fab-item rounded-circle ">
     <i class="fas fa-paper-plane"></i>
   </a>
 </div>

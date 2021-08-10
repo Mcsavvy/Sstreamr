@@ -7,3 +7,4 @@ alias migrate="python3 manage.py migrate"
 alias shell="python3 manage.py shell"
 alias manage="python3 manage.py"
 export PATH=.env/bin:$PATH
+export IGAUTH='hood@ins.com'

@@ -1,16 +1,15 @@
-from nodes.models import Notification
+from django.http.response import JsonResponse
+from apps.nodes.models import Notification
+from apps.feeds.models import *
 from core import render
 from django.views.generic import View
 from django.shortcuts import redirect
-from core.models import User, Nodes, nodify
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.utils import timezone
 from django.core import serializers
 from core.decorators import Request, allowed_user, authenticated_user
-from core.models import YouTubes
 from core.utils import grid
-
 # Create your views here.
 
 
@@ -22,43 +21,71 @@ class Main(View):
             read = request.GET["read"]
             if read == "all":
                 for x in all_:
-                    x.status = "read"
+                    x.status = "R"
                     x.save()
             else:
                 for x in all_:
                     if x.id == int(read):
-                        x.status = "read"
+                        x.status = "R"
                         x.save()
                         break
-        unread_ = tuple(x for x in all_ if x.status != "read")
+        unread_ = tuple(x for x in all_ if x.status != "R")
         for x in unread_:
-            if x.status == "sent":
-                x.status = "delivered"
+            if x.status == "S":
+                x.status = "D"
                 x.save()
-        read_ = tuple(x for x in all_ if x.status == "read")
         return render(
-            request, "partials/notifications.html", {"notifications": (unread_, read_)}
+            request, "partials/notifications.html", {"notifications": all_, 'unread': len(unread_)}
         )
+
+    def youtube(self, request, node):
+        all = Youtubevideo.objects.all()
+        current_slide = int(request.GET.get('s', 1))
+        amount = int(request.GET.get('c', 20))
+        sorted_by_date = sorted(
+            all,
+            reverse=True
+        )
+        slide = grid(
+            sorted_by_date, width=amount, spillover=True,
+            slide=current_slide, fillempty=object
+        )
+        print('LENGTH OF SLIDE PARENT: ', len(slide.parent))
+        print('CURRENT SLIDE: ', slide.slide)
+        print('CURRENT SLIDE LENGTH: ', len(slide))
+        return render(request, 'feeds/youtube.html', {'slide': slide})
+
+    def instagram(self, request, node):
+        all = Instagrampost.objects.all()
+        current_slide = int(request.GET.get('s', 1))
+        amount = int(request.GET.get('c', 20))
+        sorted_by_date = sorted(
+            all,
+            reverse=True
+        )
+        slide = grid(
+            sorted_by_date, width=amount, spillover=True,
+            slide=current_slide, fillempty=object
+        )
+        print('LENGTH OF SLIDE PARENT: ', len(slide.parent))
+        print('CURRENT SLIDE: ', slide.slide)
+        print('CURRENT SLIDE LENGTH: ', len(slide))
+        return render(request, 'feeds/instagram.html', {'slide': slide})
+
 
     def get(self, request):
         node = request.user.node
         if request.isAjax:
             if "notification" in request.GET:
                 return self.handle_notifications(request, node)
-        all_youtube_videos = YouTubes()
-        youtube_videos_sorted_by_date = sorted(
-            all_youtube_videos, key=lambda vid: vid.createdAt,
-            reverse=True
-        )
-        youtube_videos_grid = grid(
-            youtube_videos_sorted_by_date, num_of_cols=6, spillover=True
-        )
-
-        context = {
-            "youtube": youtube_videos_grid[:10]
-        }
-        response = render(request, "main/landing.html", context)
-        return response
+            elif "youtube" in request.GET:
+                return self.youtube(request, node)
+            elif "instagram" in request.GET:
+                return self.instagram(request, node)
+        resp = render(request, "main/landing.html", {'range':range(20)})
+        resp['SameSite'] = None
+        resp['Secure'] = ''
+        return resp
 
     # @Request.ajax(False)
     @authenticated_user(True)

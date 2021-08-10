@@ -1,12 +1,9 @@
-// import Scraper from "./youtube/Scraper"
 let ajx = {
     post: {
         ajax: 1,
-        type: "POST"
     },
     get: {
         ajax: 1,
-        type: "GET"
     }
 }
 
@@ -105,13 +102,10 @@ requests = {
             ...body,
             ...ajx.get
         }
-        $.ajax({
+        return $.ajax({
             url: path,
             type: "GET",
             data: body,
-            headers: {
-                "X-CSRFToken": getCookie("csrftoken")
-            },
             success: callback
         })
     },
@@ -121,9 +115,9 @@ requests = {
         }
         body = {
             ...body,
-            ...ajx.get
+            ...ajx.post
         }
-        $.ajax({
+        return $.ajax({
             url: path,
             type: "POST",
             data: body,
@@ -148,37 +142,29 @@ function xEvent(url, name, attrs) {
 
 function wXs() {
     console.log("extra-small")
-    $(".url--item").css("font-size", ".6rem");
-    $(".url--item").css("padding", ".5rem")
+    $('.nav-icon span.info').hide()
 }
 
 function wSm() {
     console.log("small")
-    $('.banner-img').css("height", "5cm")
-    $(".url--item").css("font-size", ".6rem");
-    $(".url--item").css("padding", ".68rem")
+    $('.nav-icon span.info').hide()
 }
 
 function wMd() {
     console.log("medium")
-    $('.banner-img').css("height", "5.5cm");
-    $("main").css("min-height", "15cm");
-    $(".url--item").css("font-size", ".7rem");
-    $(".url--item").css("padding", ".6rem")
+    $('.nav-icon span.info').hide()
 }
 
 function wLg() {
     console.log("large")
-    $('.banner-img').css("height", "7cm")
-    $(".url--item").css("font-size", "1.4rem");
-    $(".url--item").css("padding", "1.2rem")
+    $('.nav-icon span.info').show()
 }
 
 function wXl() {
     console.log("extra-large")
-    $('.banner-img').css("height", "7.5cm")
-    $(".url--item").css("font-size", "2rem");
-    $(".url--item").css("padding", "1.5rem")
+//     $('.banner-img').css("height", "7.5cm")
+//     $(".url--item").css("font-size", "2rem");
+//     $(".url--item").css("padding", "1.5rem")
 }
 
 function viewPort() {
@@ -230,118 +216,78 @@ create two css classes to handle filtering of search
 
 */
 
-function handleFab(fab) {
-    if ($(fab).hasClass('fab')) {
-        $(fab).toggleClass('fab fab-active');
-        $('.fab-info').addClass("fab-info-active")
-    } else if ($(fab).hasClass('fab-active')) {
-        $(fab).toggleClass('fab fab-active');
+$(function(){$('#fab-trigger').click(function(e){
+    if ($(this).hasClass('fab-active')) {
+        $(this).removeClass('fab-active');
         $('.fab-info').removeClass("fab-info-active")
+        globalThis.fabActive = false
+    } else {
+        $(this).addClass('fab-active');
+        $('.fab-info').addClass("fab-info-active")
+        globalThis.fabActive = true
     }
-    $(fab).closest('div.floating-action-menu').toggleClass('active');
+    $(this).closest('div.floating-action-menu').toggleClass('active');
+    e.stopPropagation()
+})})
 
+
+function getNotifications(read){
+	function setHandler(){
+		$('#box').slideUp()
+		globalThis.notificationOpen = false;
+		$('#bell').click(function(e) {
+			if (notificationOpen) {
+				$('#box').slideUp()
+				notificationOpen = false;
+			} else {
+				$('#box').slideDown()
+				notificationOpen = true;
+			}
+			event.stopPropagation()
+		});
+		viewPort()
+	}
+	if (read == 'all'){
+		$('#notifications').load('/?x-ajax=1&notification&read=all', setHandler)
+	} else if (typeof read == "number") {
+        $('#notifications').load(`/?x-ajax=1&notification&read=${read}`, setHandler)
+    } else if (typeof read == typeof undefined) {
+    	$('#notifications').load(`/?x-ajax=1&notification`, setHandler)
+    }
 }
-
-// function handleNavMenuItemClick(self) {
-//     $('.cd-side__item.cd-side__item--has-children.js-cd-item--has-children').not(self).each(function() {
-//         $(this).removeClass('cd-side__item--selected')
-//     })
-//     $(self).addClass('cd-side__item--selected')
-
-// }
-
-// function handleNavMenuSubItemClick(self) {
-//     $(self).siblings('.cd-side__sub-item').each(function() {
-//         $(this).children('a').attr('aria-current', '')
-//     })
-//     $(self).children('a').attr('aria-current', 'page')
-
-// }
-
-// function handleNavOpenFabClose(self) {
-//     if ($(self).hasClass('cd-nav-trigger--nav-is-visible')) {
-//         if ($('#fab-trigger').hasClass('fab-active')) {
-//             $('#fab-trigger').trigger('click')
-//             $('#fab-trigger').hide()
-//         }
-//     } else {
-//         if (!$('#fab-trigger').hasClass('fab-active')) {
-//             $('#fab-trigger').show()
-//             $('#fab-trigger').trigger('click')
-//         }
-//     }
-// }
-
-// function mobileRestrict() {
-//     xEvent('/auth/xevent/', 'get:user-agent').then(function(ua) {
-//     	console.log(ua.isMobile)
-//         if (!ua.isMobile) {
-//         	xEvent('/auth/xevent/', 'do:mobile-restrict', `location=${document.location}`).then(function(response){
-//         		if ('message'in response && 'toast' in response && Boolean(response.toast)) {
-// 					console.log('TRUE')
-// 					arguments = argParser(response.message)
-// 					notify.toast(arguments.args[0], arguments.kwargs)
-// 				}
-// 				if ('url'in response) {
-//                     setTimeout(function(){
-//                         document.location = response.url
-//                     }, 5000)
-					
-// 				}
-//         	})
-            
-//         }
-//     })
-// }
-
-// $('.clipboard-object').each(function() {
-//     var attr = $(this).attr('data-clipboard-text');
-//     if (isNone(attr)) {
-//         $(this).attr('data-clipboard-text', $(this).text())
-//     }
-// })
-// clipboard = new ClipboardJS('.clipboard-object')
-// clipboard.on('success', function(e) {
-//     msg = $(e.trigger).attr('data-clipboard-toast')
-//     if (!isNone(msg)) {
-//         message(msg, "success")
-//     } else {
-//         message("copied to clipboard", "success")
-//     }
-// });
-// clipboard.on('error', function() {
-//     message("could not copy to clipboard. try again", "error")
-// })
 
 $(function() {
     Theme.setMode();
-//     mobileRestrict();
-    $("#fab-trigger").trigger("click");
+    //     mobileRestrict();
+    $("#fab-trigger").click();
+    getNotifications()
+    $(document).click(()=>{
+        if (notificationOpen) {
+        	$('#box').slideUp()
+            notificationOpen = false;
+        }
+    });
+    $('#feeds').click(()=>{
+    	if (fabActive) {
+        	$('#fab-trigger').click()
+        }
+    })
     $(window).on("resize", function() {
         /*location.reload(true); */
         viewPort()
     });
-    try{
-        pushNotifications();
-    }
-    catch (e){
+    try {
+        pushNotifications()
+    } catch (e) {
         ''
     }
-       
     viewPort();
-    $('img').each(function() {
-        this.onerror = function() {
-            $(this).replaceWith($(this).attr("alt") || "BROKEN IMAGE")
-        }
-        ;
-    });
-    // $('.cd-side__item.cd-side__item--has-children.js-cd-item--has-children').click(function() {
-    //     handleNavMenuItemClick(this)
-    // })
-    // $('.cd-side__sub-item').click(function() {
-    //     handleNavMenuSubItemClick(this)
-    // })
-    // $('.cd-nav-trigger.js-cd-nav-trigger').click(function() {
-    //     handleNavOpenFabClose(this)
-    // })
+    $('img').on('error', function() {
+    	$(this).unbind("error")
+    	if ($(this).attr('alt')){
+    		$(this).replaceWith($(this).attr('alt'))
+    	} else {
+    		$(this).replaceWith("BROKEN IMAGE")
+    	}
+    })
 })
