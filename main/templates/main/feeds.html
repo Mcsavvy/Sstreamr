@@ -1,0 +1,49 @@
+{% extends './base.html' %}
+{%load static%}
+{%block head%}
+<link rel="stylesheet" href="{%static 'css/feeds.css'%}">
+<script src="{%static 'js/feeds.js'%}"></script>
+{%endblock%}
+{%block header%}
+{%include 'main/partials/feeds_navbar.html'%}
+{%endblock%}
+{% block content %}
+<div class="container-lg mt-4" id="feeds">
+    <!-- Pills navs -->
+    <ul class="nav nav-pills mb-3 justify-content-center" id="feeds-tabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a href="#instagram-feeds" class="nav-link active bg rounded" style="background: var(--ig-bg);"  data-toggle="pill" role="tab" aria-selected="true">
+                <i class="fab fa-instagram"></i>
+                instagram posts
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a href="#youtube-feeds" class="btn bg rounded nav-link" style="background-color: #FF0000;" data-toggle="pill" role="tab" aria-selected="true">
+                <i class="fab fa-youtube"></i>
+                youtube videos
+            </a>
+        </li>
+    </ul>
+    <!-- Pills navs -->
+
+    <!-- Pills content -->
+    <div class="tab-content" id="feeds-content">
+        <div id="instagram-feeds" class="tab-pane fade show active" role="tabpanel">
+            {% for x in range %}
+            <div class="youtube-slide-placeholder">
+            </div>
+            {%endfor%}
+        </div>
+        <div id="youtube-feeds" class="tab-pane fade" role="tabpanel">
+            {% for x in range %}
+            <div class="youtube-slide-placeholder">
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+    <!-- Pills content -->
+</div>
+{% endblock %}
+{% block fabs %}
+{% include 'main/fabs/feeds.html' %}
+{% endblock %}

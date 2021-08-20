@@ -17,6 +17,7 @@ darkmode = {
         this.set('shadow', '--dk-sh')
         this.set('background', '--dk-bg')
         lightmode.unload()
+        $('#theme-fab button').html('<i class="fas fa-sun"></i>')
     },
     unload: function(){
         this.set('primary', '--r-pm')
@@ -50,6 +51,7 @@ lightmode = {
         this.set('shadow', '--lt-sh')
         this.set('background', '--lt-bg')
         darkmode.unload()
+        $('#theme-fab button').html('<i class="fas fa-moon"></i>')
     },
     unload: function(){
         this.set('primary', '--r-pm')

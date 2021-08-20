@@ -1,0 +1,184 @@
+{% extends './base.html' %}
+{%load static%}
+{%block head%}
+<link rel="stylesheet" href="{%static 'css/profile.css'%}">
+<script src="{%static 'js/profile.js'%}"></script>
+{%endblock%}
+{%block header%}
+{%include 'main/partials/profile_navbar.html'%}
+{%endblock%}
+{%block content%}
+<div class="container-lg mt-4" id="main">
+    {% include 'partials/profile.html' %}
+    <!-- Pills navs -->
+    <ul class="nav nav-pills mb-3" id="tabs" role="tablist">
+        <li class="mr-1">
+            <a href="#notifications" class="nav-link active rounded" data-toggle="pill" role="tab"
+                aria-selected="true">
+                <i class="fas fa-bell"></i>
+                notifications
+            </a>
+        </li>
+        <li class="mr-1">
+            <a href="#profile" class="rounded nav-link" data-toggle="pill" role="tab" aria-selected="true">
+                <i class="fas fa-user-circle"></i>
+                edit profile
+            </a>
+        </li>
+        <li>
+            <a href="#instagram" class="nav-link rounded" data-toggle="pill" role="tab" aria-selected="true">
+                <i class="fab fa-instagram"></i>
+                instagram
+            </a>
+        </li>
+    </ul>
+    <!-- Pills navs -->
+
+    <!-- Pills content -->
+    <div class="tab-content" id="tabs-content">
+        <div class="bg-bg bd-sh-1 row container tab-pane fade show active" id="notifications" role="tabpanel">
+            <button class="btn btn-block rounded bg-r-bg bg mt-2" onclick="notifications.readAllUnread()">
+                mark all as read
+            </button>
+            {% for x in notifications %}
+            <div class="notifications-item {{x.status}} col-12 col-md-6 col-lg-4" data-id="{{x.id}}">
+                <div class="text">
+                    <small class="d-block r-bg" onclick="{
+                    notify.toast('{{x.message}}', {
+                        type: '{{x.level}}',
+                        title: ''
+                    })
+                }">
+                        {{x.message|truncatechars:25|safe}}
+                    </small>
+                    {%if x.href and x.onclick%}
+                    <a href="{{x.href|safe}}" class="btn btn-sm notification-action onclick href"
+                        onclick="{{x.onclick|safe}}">{{x.action|safe}}</a>
+                    {%elif x.href%}
+                    <a href="{{x.href|safe}}" class="notification-action href">{{x.action|safe}}</a>
+                    {%elif x.onclick%}
+                    <button class="btn btn-sm notification-action onclick"
+                        onclick="{{x.onclick|safe}}">{{x.action|safe}}</button>
+                    {%endif%}
+                    <p class="text-muted">
+                        {{x.created|timesince}} ago
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div id="profile" class="tab-pane fade" role="tabpanel">
+            <form class="container-md mt-5" method="POST">
+                {%csrf_token%}
+                <div class="row justify-content-evenly">
+                    {% for field in form %}
+                    <div class="form-outline mb-4 mr-1 col-12 col-lg-5">
+                        <label class="form-label r-bg ml-2" for="{{ field.auto_id }}">{{ field.label }}</label>
+                        {{field}}
+                        <small class="row">
+                            {%for err in field.errors%}
+                            <span class="text-muted col-auto" style="font-size: 0.65rem;">
+                                {{err}}
+                            </span>
+                            {%endfor%}
+                        </small>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="row justify-content-left pl-2 mb-4">
+                    <!-- Checkbox -->
+                    <div class="form-check col-6 col-lg-5">
+                        <input class="form-check-input rounded" type="checkbox" value="" id="show-password" />
+                        <label class="form-check-label" for="form1Example3"> show password </label>
+                    </div>
+                </div>
+                <button class="btn btn-block rounded bg-pm lt-bg mb-2" type="submit">
+                    save changes
+                </button>
+            </form>
+        </div>
+        <div id="instagram" class="container tab-pane fade" role="tabpanel">
+            {% if user.node.instagram%}
+            <div class="row justify-content-evenly">
+                <button class="btn rounded col-12 col-lg-5 bg-danger bg mb-2" onclick="{
+                notify.toast(
+                    'thiss means you would no longer receive updates from us. You can always add your instagram again.',
+                    {title:'Instagram would be removed',type:'ig'}
+                ).then(function () {
+                    xEvent('/xevent/instagram/', 'remove').then(function () {
+                        document.location = '/auth/redirect//profile'
+                    })
+                })
+            }">
+                    remove instagram
+                </button>
+                <button class="btn rounded col-12 col-lg-5 bg-r-bg bg mb-2" onclick="{
+                notify.toast(
+                    'this means we would fetch your instagram dp and bio again',
+                    {title:'Your instagram would be updated',type:'ig'}
+                ).then(function () {
+                    xEvent('/xevent/instagram/', 'update').then(function () {
+                        document.location = '/auth/redirect//profile'
+                    })
+                })
+            }">
+                    update instagram
+                </button>
+            </div>
+            {%else%}
+            <div class="row justify-content-evenly">
+                <p class="sc">
+                    You would get an instant follow from us.
+                </p>
+                <label for="ig-username" class="form-label r-bg">Instagram Username:</label>
+                <input type="text" class="form-control col-lg-5 rounded bd-pm-1 dk-bg mb-2" id="ig-username" required
+                    placeholder="not your instagram name" oninput="{
+                let p = $(this).siblings('p').first()
+                if (this.value.length > 3){
+                    p.html(
+                        `<i class=ig-pink>@${this.value}</i>&nbsp;would get an instant follow from us.`    
+                    )
+                } else {
+                    p.html(
+                        'You would get an instant follow from us.'
+                    )
+                }
+            }">
+                <button class="btn btn-block col-lg-5 ig-bg rounded bg mb-2" onclick="{
+                notify.toast(
+                    'You would be notified as soon as it is confirmed.',
+                    {
+                        type:'ig',
+                        title:'Checking your instagram...'
+                    }
+                ).then(function(){
+                    xEvent(
+                        '/xevent/instagram',
+                        `add??username=${$('#ig-username').val()}`
+                    ).then(function(response){
+                        if ('message' in response){
+                            arguments = argParser(response.message)
+                            notify.toast(
+                                arguments.args[0],
+                                arguments.kwargs
+                            ).then(function(){
+                                if ('reload' in response && response.reload) {
+                                    document.location = `/auth/redirect///`
+                                }
+                            })
+                        }
+                    })
+                })
+            }">
+                    add instagram
+                </button>
+            </div>
+            {%endif%}
+        </div>
+    </div>
+    <!-- Pills content -->
+</div>
+{%endblock%}
+{% block fabs %}
+{% include 'main/fabs/profile.html' %}
+{% endblock %}

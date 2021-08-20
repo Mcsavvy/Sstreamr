@@ -1,0 +1,78 @@
+#notifications {
+    margin-top: 2rem;
+    max-width: 100%;
+    margin: auto;
+    border-radius: 5px 0px 5px 5px;
+    height: fit-content;
+    white-space: nowrap;
+    padding: 0.2rem;
+}
+
+
+.notifications-item {
+    display: flex;
+    border-bottom: 0.5px solid var(--sh);
+    padding: 6px 9px;
+    margin-bottom: 0px;
+    cursor: pointer
+}
+
+.notifications-item.S::before,.notifications-item.D::before {
+    content: '\f111';
+    font-family: "Font Awesome 5 Free";
+    margin-right: 1rem;
+    font-size: 0.5rem;
+    position: relative;
+    top: 1rem;
+    color: var(--pm)
+}
+
+.notifications-item.R::before{
+    content: '\f058';
+    font-family: "Font Awesome 5 Free";
+    margin-right: 1rem;
+    font-size: 0.5rem;
+    position: relative;
+    top: 1rem;
+    color: var(--sh)
+}
+
+.notifications-item .text p {
+    color: var(--sc);
+    font-size: 12px
+}
+
+.notification-action.onclick {
+  background: var(--pm);
+  color: var(--bg);
+  text-transform: lowercase;
+}
+
+#profile-form {
+    margin-top: 5rem;
+    margin: auto;
+    max-width: 100%;
+    height: fit-content;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+
+#instagram-form {
+    margin-bottom: 5rem;
+    margin-top: 5rem;
+    max-width: 100%;
+    height: fit-content;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+#tabs>li>a:not(.active){
+  background-color: var(--sh);
+  color: var(--pm)
+}
+
+#tabs>li>a.active{
+  background-color: var(--pm);
+  color: var(--lt-bg)
+}

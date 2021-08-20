@@ -1,58 +1,20 @@
-<div class="nav-icon" id="bell">
-    <span class="info">notifications</span>
-    {% if unread %}
-    <span>
-      
-    </span>
-    <i class="fas fa-bell">
-      <small class="badge rounded-pill badge-notification bg-r-bg bg">
-        {{unread}}
-      </small>
-    </i>
-    {% else %}
-    <i class="fas fa-bell"></i>
-    {%endif%}
+<div class="nav-icon_" id="bell">
+  <h6 class="fas fa-bell lt-bg"></h6>
 </div>
 <div class="notifications bg-bg bd-sh-1" id="box" style="display: none;">
-    {% if unread %}
-    <i class="small ml-2 sh d-block">
-        {{unread}} unread notification{{unread|pluralize}}
-    </i>
-    <span class="badge bg-pm bg rounded ml-2" onclick="{
-        $(this).remove()
-        getNotifications('all')
-    }">mark all as read</span>
-    {%else%}
-    <i class="ml-1 text-muted small">
-        all cleared...
-    </i>
-    {% endif %}
     {% for x in notifications %}
-    <div class="notifications-item {%if x.status == 'R'%}read{%else%}unread{%endif%}" {%if x.status == 'D'%}onclick="{
-      notify.snackbar(
-        '{{x.message}}',
-        {
-          type: '{{x.level|safe}}',
-          interaction: true,
-          actionText: 'okay',
-          action: function(){
-            this.hide()
-          },
-          init: false,
-          duration: 2000
-        }
-      )
-      getNotifications({{x.id}})
-    }"{%endif%}>
+    <div class="notifications-item {{x.status}}" data-id="{{x.id}}">
         <div class="text">
-            <small class="r-bg">{{x.message|truncatechars:50|safe}}</small>
+            <small class="r-bg d-block">{{x.message|safe}}</small>
+              {%if x.href and x.onclick%}
+                <a href="{{x.href|safe}}" class="btn btn-sm notification-action onclick href" onclick="{{x.onclick|safe}}">{{x.action|safe}}</a>
+              {%elif x.href%}
+                <a href="{{x.href|safe}}" class="notification-action href">{{x.action|safe}}</a>
+              {%elif x.onclick%}
+                <button class="btn btn-sm notification-action onclick" onclick="{{x.onclick|safe}}">{{x.action|safe}}</button>
+              {%endif%}
             <p class="text-muted">
-                {% if x.level == 'error' %}
-                <i class="fas fa-eye-slash text-danger mr-2"></i>
-                {%else%}
-                <i class="fas fa-eye-slash text-{{x.level}} mr-2"></i>
-                {%endif%}
-                {{x.created|timesince}} ago
+              {{x.created|timesince}} ago
             </p>
         </div>
     </div>

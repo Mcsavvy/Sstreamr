@@ -1,0 +1,40 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    {% include 'head.html' %}
+    {%block head%}{%endblock%}
+  </head>
+  <body class="bg-bg r-bg">
+    <header>
+      {%block header%}
+        {%include 'main/partials/navbar.html'%}
+      {%endblock%}
+    </header>
+    <main style="margin-top: 5rem;">
+        {% block content %}{% endblock %}
+    </main>
+  </body>
+  <footer>
+    {% block fab_menu %}
+    <div class="floating-action-menu d-block">
+      <div class="action-menu">
+        {% block fabs %}
+        {% endblock fabs %}
+      </div>
+      <div class="action-button">
+        <button class="btn btn-lg btn-floating rounded-circle" id="fab-trigger">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+    </div>
+    {% endblock %}
+    {% include 'partials/footer.html' %}
+    {% block scripts %}
+    <!-- FOTORAMA -->
+    <script type="text/javascript" src="{% static 'js/fotorama.js'%}"></script>
+    <link href="{%static 'css/fotorama.css'%}" rel="stylesheet"/>
+    <script type="text/javascript" src="{% static 'js/app.js'%}"></script>
+    {% endblock %}
+  </footer>
+</html>

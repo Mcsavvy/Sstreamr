@@ -1,9 +1,14 @@
 from collections.abc import Iterable
 from collections import OrderedDict
+import os
 import random
 from inspect import signature
+import sys
 from typing import Mapping, Tuple
 from math import ceil
+from django.conf import settings
+import stackprinter
+from datetime import datetime
 
 
 class Attr:
@@ -229,7 +234,7 @@ def arg_writer(*args, **kwargs):
     if positional:
         positional = positional[:-2]
     keywords = ""
-    for k, v in kwargs.keys():
+    for k, v in kwargs.items():
         keywords += f"{k}={v!r}&&"
     if keywords:
         keywords = keywords[:-2]
@@ -260,4 +265,3 @@ def whatCallable(o):
     breakpoint()
     # need to inspect o
 
-    

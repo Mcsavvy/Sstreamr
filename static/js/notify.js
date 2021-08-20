@@ -10,7 +10,7 @@ notify = {
             type: options.type || 'info',
             timeout: options.timeout || 2000,
             callback: options.callback || function(){},
-            positionClass: options.position || 'topLeft'
+            positionClass: options.position || 'topRight'
         })
     },
     toast: function(text, options) {

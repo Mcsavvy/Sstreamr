@@ -1,0 +1,21 @@
+<!-- MOBILE -->
+{% block content%}
+{% block theme_fab %}
+<div id="theme-fab" class="floating-action" data-toggle="tooltip" data-placement="left" title="toggle darkmode" onclick="Theme.toggle()">
+    <button class="btn btn-floating fab-item rounded-circle">
+    </button>
+</div>
+{% endblock %}{% block phone_fab %}
+<div class="floating-action" id="phone-fab" data-toggle="tooltip" data-placement="left" title="reach us on phone">
+  <a href="tel:2348088792254" class="btn btn-floating fab-item rounded-circle ">
+    <i class="fas fa-phone"></i>
+  </a>
+</div>
+{% endblock %}{% block dm_fab %}
+<div class="floating-action" id="email-fab" data-toggle="tooltip" data-placement="left" title="send us a direct message">
+  <a href="mailto:phishink5@gmail.com" class="btn btn-floating fab-item rounded-circle ">
+    <i class="fas fa-paper-plane"></i>
+  </a>
+</div>
+{% endblock %}
+{%endblock%}

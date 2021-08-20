@@ -6,11 +6,11 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 INSTALLED_APPS = [
     'main',
-    'apps.feeds',
-    'apps.nodes',
-    'apps.xevent',
-    'apps.socials',
-    'apps.authentication',
+    'feeds',
+    'nodes',
+    'xevent',
+    'socials',
+    'authentication',
     "django_user_agents",
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,7 +39,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates"],
+        'DIRS': [BASE_DIR / "templates", 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

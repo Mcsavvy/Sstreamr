@@ -18,6 +18,14 @@
     background: var(--ig-bg);
 }
 
+.ig-profile-link {
+  color: var(--ig-blue)
+}
+
+.ig-tag-link {
+  color: var(--ig-pink)
+}
+
 .brand:before {
     content: 'S';
     font-family: 'Supermercado One';
@@ -43,177 +51,6 @@
   transition: background 0s;
 }
 
-ul.social-network {
-    list-style: none;
-    display: inline;
-    margin-left: 0 !important;
-    padding: 0
-}
-
-ul.social-network li {
-    display: inline;
-    margin: 0 5px
-}
-
-.social-network a.icoFacebook:hover {
-    background-color: #3B5998
-}
-
-.social-network a.icoTwitter:hover {
-    background-color: #33ccff
-}
-
-.social-network a.icoInstagram:hover {
-    background-color: #bc2a8d
-}
-
-.social-network a.icoFacebook:hover i,
-.social-network a.icoTwitter:hover i,
-.social-network a.icoInstagram:hover i {
-    color: #fff
-}
-
-a.socialIcon:hover,
-.socialHoverClass {
-    color: #44BCDD
-}
-
-.social-circle li a {
-    background-color: var(--sc);
-    display: inline-block;
-    position: relative;
-    margin: 0 auto 0 auto;
-    border-radius: 50%;
-    text-align: center;
-    width: 50px;
-    height: 50px;
-    font-size: 20px
-}
-
-.social-circle li i {
-    margin: 0;
-    color: var(--bg);
-    line-height: 50px;
-    text-align: center
-}
-
-.social-circle li a:hover i,
-.triggeredHover {
-    transform: rotate(360deg);
-    transition: all 0.2s
-}
-
-.social-circle i {
-    color: var(--sc);
-    background-color: transparent;
-    transition: all 0.8s;
-    transition: all 0.8s
-}
-
 .xhide{
     display: none;
-}
-
-.notifications {
-    max-width: 25rem;
-    opacity: 1;
-    position: absolute;
-    top: 63px;
-    right: 62px;
-    border-radius: 5px 0px 5px 5px;
-    max-height: 50rem;
-    overflow-y: scroll;
-    overflow-y: ellipsis;
-    padding: 0.2rem;
-}
-
-.notifications-item {
-    display: flex;
-    border-bottom: 1px solid var(--sh);
-    padding: 6px 9px;
-    margin-bottom: 0px;
-    cursor: pointer
-}
-
-.notifications-item .text p {
-    color: #aaa;
-    font-size: 12px
-}
-
-.notifications-item.unread:hover {
-    filter: brightness(50%)
-}
-
-/* width */
-::-webkit-scrollbar {
-    width: 100%;
-    height: 0.2rem;
-}
-
-/* button */
-::-webkit-scrollbar-button {
-    background: var(--bg)
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: var(--pm);
-}
-
-/* ::-webkit-scrollbar-track::before {
-    content: "f144";
-    font-family: "Font Awesome 5 Brands";
-    visibility: visible;
-    font-size: x-large;
-} */
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: transparent
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-    background: var(--r-bg)
-}
-
-/* The track NOT covered by the handle.
-::-webkit-scrollbar-track-piece {
-    background: #000;
-}
-
-/* Corner */
-::-webkit-scrollbar-corner {
-    background: var(--sh);
-}
-
-/* Resizer */
-::-webkit-resizer {
-    background: #111;
-}
-
-.youtube-slide-placeholder {
-    height: 15rem;
-    width: 100%;
-    margin: auto;
-    margin-top: 1rem;
-    background-image: linear-gradient(
-      to right,
-      #f6f7f8 0%,
-      #edeef1 10%,
-      #f6f7f8 20%,
-      #f6f7f8 100%
-    );
-    background-size: 200% 100%;
-    animation: bgPos 1s linear infinite;
-}
-
-@keyframes bgPos {
-  0% {
-    background-position: 50% 0;
-  }
-
-  100% {
-    background-position: -150% 0;
-  }
 }

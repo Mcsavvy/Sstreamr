@@ -1,8 +1,9 @@
 from django.http import HttpResponse, HttpRequest
+from django.http.response import HttpResponseBase
 from django.shortcuts import redirect
 from . import render, error
 from .utils import Attr, arg_parser
-from .models import User
+from django.contrib.auth.models import User
 from .random_fields import Random
 from .caching import CachedObject, dbcache
 import typing
@@ -48,8 +49,8 @@ def allowed_user(allowed_groups: typing.Iterable = []):
 
 def authenticated_user(
     authenticated: bool = False,
-    login_url: str = "/auth/redirect//auth/",
-    redirect_url: str = "/auth/redirect///",
+    login_url: str = "auth.login",
+    redirect_url: str = "main.feeds",
 ):
     """
     restrict view to Authenticated users
@@ -91,7 +92,6 @@ class Request:
     def _capture_event(
         request: HttpRequest,
         event_name: str,
-        callback=lambda *args, **kwargs: (args, kwargs),
     ):
         print(f"Trying to capture event [{event_name}]")
         if request.headers.get("x-events", request.headers.get("X-Events")):
@@ -100,20 +100,18 @@ class Request:
             )
             if event_name in args:
                 print("Found in headers.")
-                return callback(*args, **kwargs)
+                return args, kwargs
         elif event_name.lower() in ["post", "get", "head", "put", "delete"]:
             print("Not found in headers.")
             method = getattr(request, event_name.upper(), {})
             if method:
                 print("Found in request methods.")
-                return callback(event_name.upper(), **method)
+                return event_name.upper(), method
         elif event_name.lower() in ["ajax", "x-ajax"]:
             print("Not found in request methods.")
             if request.isAjax:
                 print("Found in isAjax.")
-                return callback(
-                    "X-AJAX", **{"method": request.method, "path": request.path}
-                )
+                return event_name, {"method": request.method, "path": request.path}
             print("Not found in isAjax.")
         print("Could not capture event.")
         return False
@@ -121,33 +119,103 @@ class Request:
     @staticmethod
     def on(
         request_event: typing.AnyStr,
-        handler_function: typing.Callable[..., HttpRequest],
+        handler: typing.Union[typing.Callable[..., HttpRequest], HttpResponseBase, str]
     ):
         def bind(view_func):
             sig1 = signature(view_func)
-            sig2 = signature(handler_function)
             if "self" in sig1.parameters:
                 @wraps(view_func)
                 def function(self, request, *args, **kwargs):
+                    if isinstance(handler, str):
+                        handler_fn = getattr(self, handler, None)
+                        if callable(handler_fn):
+                            pass    
+                        elif isinstance(handler_fn, HttpResponseBase):
+                            handler_fn = lambda *args, **kwargs: handler_fn
+                        else:
+                            raise RuntimeError(
+                                f'handler expected a callable or an HttpResponse when searching for "{handler}" in {self} but got {type(handler_fn)}'
+                            )
+                    elif isinstance(handler, HttpResponseBase):
+                        handler_fn = lambda *args, **kwargs: handler
+                    elif callable(handler):
+                        handler_fn = handler
+                    else:
+                        raise RuntimeError(
+                            f'handler expected a callable or an HttpResponse but got {type(handler)}'
+                        )
                     capture = Request._capture_event(request, request_event)
                     if capture:
-                        if "self" in signature(handler_function).parameters:
-                            if 'xevent' in sig2.parameters and 'xargs' in sig2.parameters:
-                                return handler_function(self, request, *args, xevent=capture[0], xargs=capture[1], **kwargs)
-                        return handler_function(self, request, *args, **kwargs)
+                        sig2 = signature(handler_fn)
+                        if "self" in sig2.parameters:
+                            if 'xevent' in sig2.parameters:
+                                if 'xargs' in sig2.parameters:
+                                    return handler_fn(self, request, *args, xevent=capture[0], xargs=capture[1], **kwargs)
+                                else:
+                                    for k, v in sig2.parameters.items():
+                                        if k in capture[1]:
+                                            kwargs[k] = capture[1][k]
+                                    return handler_fn(self, request, *args, xevent=capture[0], **kwargs)
+                            else:
+                                if 'xargs' in sig2.parameters:
+                                    return handler_fn(self, request, *args, xargs=capture[1], **kwargs)
+                                else:
+                                    for k, v in sig2.parameters.items():
+                                        if k in capture[1]:
+                                            kwargs[k] = capture[1][k]
+                                    return handler_fn(self, request, *args, **kwargs)
+                        else:
+                            if 'xevent' in sig2.parameters:
+                                if 'xargs' in sig2.parameters:
+                                    return handler_fn(request, *args, xevent=capture[0], xargs=capture[1], **kwargs)
+                                else:
+                                    for k, v in sig2.parameters.items():
+                                        if k in capture[1]:
+                                            kwargs[k] = capture[1][k]
+                                    return handler_fn(request, *args, xevent=capture[0], **kwargs)
+                            else:
+                                if 'xargs' in sig2.parameters:
+                                    return handler_fn(request, *args, xargs=capture[1], **kwargs)
+                                else:
+                                    for k, v in sig2.parameters.items():
+                                        if k in capture[1]:
+                                            kwargs[k] = capture[1][k]
+                                    return handler_fn(request, *args, **kwargs)
+                        
                     return view_func(self, request, *args, **kwargs)
 
             else:
+                @wraps(view_func)
                 def function(request, *args, **kwargs):
                     capture = Request._capture_event(request, request_event)
+                    if isinstance(handler, HttpResponseBase):
+                        handler_fn = lambda *args, **kwargs: handler
+                    elif callable(handler):
+                        handler_fn = handler
+                    else:
+                        raise RuntimeError(
+                            f'handler expected a callable or an HttpResponse but got {type(handler)}'
+                        )
                     if capture:
-                        if 'xevent' in sig2.parameters and 'xargs' in sig2.parameters:
-                            return handler_function(request, *args, xevent=capture[0], xargs=capture[1], **kwargs)
-                        return handler_function(request, *args, **kwargs)
+                        sig2 = signature(handler_fn)
+                        if 'xevent' in sig2.parameters:
+                            if 'xargs' in sig2.parameters:
+                                return handler_fn(request, *args, xevent=capture[0], xargs=capture[1], **kwargs)
+                            else:
+                                for k, v in sig2.parameters.items():
+                                    if k in capture[1]:
+                                        kwargs[k] = capture[1][k]
+                                return handler_fn(request, *args, xevent=capture[0], **kwargs)
+                        else:
+                            if 'xargs' in sig2.parameters:
+                                return handler_fn(request, *args, xargs=capture[1], **kwargs)
+                            else:
+                                for k, v in sig2.parameters.items():
+                                    if k in capture[1]:
+                                        kwargs[k] = capture[1][k]
+                                return handler_fn(request, *args, **kwargs)
                     return view_func(request, *args, **kwargs)
-
             return function
-
         return bind
 
     @staticmethod
@@ -168,41 +236,6 @@ class Request:
         for k, v in options.items():
             setattr(instance, k, v)
         return instance
-
-    @staticmethod
-    def bind(request_event, handler_function):
-        """
-        Bind a callable to an xevent
-        on(<xevent>) callable is called
-
-        callable must accept the following parameters
-        :param request (an HTTPRequest object that holds the xevent)
-        :param xevent (name of the event)
-        :param xargs (a dictionary containing arguments of the event)
-
-        example
-        =======
-        def edit_user_settings(request, xevent, xargs):
-            import json
-            user = request.user
-            if user.is_authenticated:
-                old_settings = json.dumps(user.settings)
-                new_settings = xargs
-                updated_settings = old_settings.update(new_settings)
-                user.settings = json.loads(updated_settings)
-
-        bind('edit:user-settings', edit_user_settings)
-
-        Note: you must assign this only once!
-
-        """
-        cached_obj = CachedObject(
-            "request_handlers", cache=dbcache, version=1, timeout=None
-        )
-        handlers = cached_obj.get([])
-        handlers.append((request_event, handler_function))
-        cached_obj.set(handlers, timeout=None)
-        return cached_obj
 
     @staticmethod
     def restrict(allowed_methods=("POST", "GET")):

@@ -85,7 +85,7 @@
   height: 30px;
   background: #e4eae7;
   color: #222;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   border-radius: 17.5px;
@@ -120,7 +120,7 @@
   font-family: "Open Sans", sans-serif;
   font-weight: 700;
   margin-bottom: 35px;
-  color: var(--pm);
+  color: var(--r-bg);
   filter: brightness(50%);
   align-self: center;
 }
@@ -140,7 +140,7 @@
 .alert-button {
   min-width: 140px;
   height: 35px;
-  border-radius: 20px;
+  border-radius: .3rem;
   font-family: "Open Sans", sans-serif;
   font-weight: 400;
   font-size: 15px;
@@ -168,7 +168,7 @@
 .confirm-button {
   min-width: 100px;
   height: 35px;
-  border-radius: 20px;
+  border-radius: .3rem;
   font-family: "Open Sans", sans-serif;
   font-weight: 400;
   font-size: 15px;
@@ -190,7 +190,7 @@
 .cancel-button {
   min-width: 100px;
   height: 35px;
-  border-radius: 20px;
+  border-radius: .3rem;
   font-family: "Open Sans", sans-serif;
   font-weight: 400;
   font-size: 15px;
@@ -302,7 +302,8 @@
 }
 
 .error-bg {
-  background: var(--sc);
+  background: var(--bs-danger);
+  background: var(--mdb-danger);
 }
 
 .ig-bg {
@@ -311,22 +312,25 @@
 
 .success-bg {
   background: var(--bs-success);
+  background: var(--mdb-success)
 }
 
 .warning-bg {
   background: var(--bs-warning);
+  background: var(--mdb-warning)
 }
 
 .question-bg {
-  background: var(--dk-bg);
+  background: var(--pm);
 }
 
 .error-btn {
-  background: var(--bs-danger)
+  background: var(--bs-danger);
+  background: var(--mdb-danger)
 }
 
 .error-btn:hover {
-  background: #e5a4b4;
+  filter: brightness(50%)
 }
 
 .ig-btn {
@@ -334,15 +338,15 @@
 }
 
 .ig-btn:hover {
-  background: var(--ig-purp);
+  filter: brightness(50%)
 }
 
 .success-btn:hover {
-  background: #6edaa4;
+  filter: brightness(50%)
 }
 
 .warning-btn:hover {
-  background: #fcecae;
+  filter: brightness(50%)
 }
 
 .info-bg {
@@ -350,20 +354,16 @@
 }
 
 .info-btn:hover {
-  background: var(--sc);
+  filter: brightness(50%)
 }
 
 .question-btn {
-/*   background: var(--pm) */
-  color: var(--lt-bg);
-  border-style: solid !important;
-  border-color: var(--sh) !important;
-  border-width: 1px !important;
-  box-shadow: none !important;
+  background: var(--sc);
+  color: var(--bg)
 }
 
 .question-btn:hover {
-  background: #bacee4;
+  filter: brightness(50%)
 }
 
 .error-timer {

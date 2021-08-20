@@ -1,0 +1,45 @@
+{% extends './base.html' %}
+{% block main %}
+<form autocomplete="off" class="container" action="/auth/join/" method="POST">
+    {% csrf_token %}
+    <div class="container-md">
+        <p class="dissplay-6 sc">
+            Enter the email for your account. If you don't remember the email you used, don't panic
+            enter your username instead.
+        </p>
+        <div class="row justify-content-evenly">
+            {% for field in form %}
+            <div class="form-outline mb-4 mr-1 col-12 col-lg-5">
+                <label class="form-label r-bg ml-2" for="{{ field.auto_id }}">{{ field.label }}</label>
+                {{field}}
+                <small class="row">
+                    {%for err in field.errors%}
+                        <span class="text-muted col-auto" style="font-size: 0.65rem;">
+                            {{err}}
+                        </span>
+                    {%endfor%}
+                </small>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="d-flex justify-content-left pl-2 mb-4">
+            <a href="#!" class="sc">don't have access to my mail</a>
+        </div>
+        <div class="row justify-content-evenly">
+            <button class="btn col-12 col-lg-5 rounded bg-pm lt-bg mb-2" type="submit" >
+                recover my account
+            </button>
+        </div>
+    </div>
+</form>
+<script>
+    $(function(){
+        {%for err in form.non_field_errors%}
+                notify.message('{{err}}', {
+                    title:'fix the following issue{{form.non_field_errors|pluralize}}',
+                    type:'info'
+                })
+        {%endfor%}
+    })
+</script>
+{% endblock %}

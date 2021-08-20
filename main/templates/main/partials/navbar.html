@@ -1,0 +1,24 @@
+{% load static %}
+<!-- Navbar -->
+<nav class="navbar navbar-expand bg-bg fixed-top bg-sc">
+  <!-- Container wrapper -->
+  <div class="container-fluid">
+    <a class="navbar-brand mt-2 mt-lg-0 special lt-bg h2" href="{%url 'main.landing'%}">
+      Sstreamr
+    </a>
+    {%block nav-menu%}
+    <!-- Right elements -->
+    <div class="d-flex justify-content-evenly align-items-center">
+      {%block nav-icons%}
+      
+      {%endblock%}
+    </div>
+    {%endblock nav-menu%}
+    <!-- Right elements -->
+  </div>
+  <!-- Container wrapper -->
+</nav>
+<!-- Navbar -->
+{% comment %}
+
+{% endcomment %}

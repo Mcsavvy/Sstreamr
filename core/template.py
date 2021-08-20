@@ -107,7 +107,7 @@ builtins = Builtin()
 
 def render_error(request, context=None, content_type=None, status=None, using=None):
     from .builtins import builtins as BUILTINS
-    context = context = {}
+    context = context or {}
     context.update(BUILTINS(request))
     return render(
         request, 'errors/generic.html',
@@ -122,9 +122,9 @@ def error(request, err=None, **extra):
     BUILTINS.request['error'] = True
     context = dict(
         name="404",
-        thrown=str(err[0]).strip('<class').rstrip('>'),
-        reason=err[1],
-        tracebacks=traceback.format_tb(err[2])
+        thrown=err.__class__.__name__,
+        reason=err.args[0],
+        tracebacks=traceback.format_tb(err.__traceback__)
     )
     context.update(BUILTINS(request))
     context.update(extra)
@@ -145,6 +145,6 @@ def render_template(
         context.update(BUILTINS(request))
         data = render(request, builtins.request.get('template', template_name), context)
         return data
-    except Exception:
+    except Exception as err:
         BUILTINS.request['error'] = True
-        return error(request, sys.exc_info())
+        return error(request, err)

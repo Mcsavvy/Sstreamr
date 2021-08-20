@@ -183,7 +183,7 @@
     -webkit-text-size-adjust: 100%;
     position: relative;
     direction: ltr;
-    z-index: 0
+    /* z-index: 0 */
 }
 
 .fotorama__wrap--rtl .fotorama__stage__frame {
@@ -213,7 +213,7 @@
 }
 
 .fotorama__stage__frame.fotorama__active {
-    z-index: 8
+    /* z-index: -1; */
 }
 
 .fotorama__wrap--fade .fotorama__stage__frame {
@@ -413,6 +413,7 @@
 .fotorama__caption__wrap {
     background-color: var(--sh);
     padding: 5px 10px;
+    color: var(--r-bg)
 }
 
 @-webkit-keyframes spinner {

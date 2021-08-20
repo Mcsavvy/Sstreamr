@@ -1,5 +1,4 @@
 from .template import builtins
-from .models import *
 import re
 import random
 from .caching import CachedObject

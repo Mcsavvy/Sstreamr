@@ -1,0 +1,7 @@
+{%extends './navbar.html'%}
+{%block nav-icons%}
+<a href="/auth/redirect//profile/" class="ml-4">
+    <img src="{{user.node.dp}}" class="rounded-circle" width="25rem" height="25rem">
+    <span class="badge badge-notification bg-pm bg rounded-circle" id="new-notifications-count"></span>
+</a>
+{%endblock%}

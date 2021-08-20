@@ -1,0 +1,29 @@
+<div class="d-flex flex-row flex-no-wrap mb-2 overflow-auto pb-1">
+    {% for video in slide %}
+    <a href="#youtube-slide-{{video.video_id}}" class="col-auto">
+        <img class="rounded img-thumbnail" src="{{video.thumbnail}}" height="100rem" width="100rem">
+    </a>
+    {% endfor %}
+</div>
+
+{% for video in slide %}
+<div class="youtube-slide mt-2" data-auto="true" data-nav="dots" data-hash="false" data-loop="true" data-autoplay="false"
+    data-keyboard="true" id="youtube-slide-{{video.video_id}}" data-width="100%" data-ratio="800/600"
+    data-transition="slide" data-alllowfullscreen="true"  data-clicktransition="crossfade" data-stopautoplayontouch="true">
+    <a href="https://www.youtube.com/watch?v={{video.video_id}}" class="youtube-slide-item" data-img="{{video.thumbnail}}"
+        data-caption="{{video.title}} <small class='d-block text-muted'>created {{video.created_at|timesince}} ago</small>" id="youtube-video-{{video.id}}">
+    </a>
+</div>
+{% endfor %}
+<div class="d-flex justify-content-center mt-4 mb-4">
+    <button class="btn rounded-pill bd-r-bg-1 mr-4"
+    {%if slide.slide == 1%}disabled{%endif%} onclick="feeds.loadYoutube({{slide.slide|add:-1}})">
+        <i class="fas fa-angle-double-left"></i>
+    </button>
+    <button class="btn rounded-pill bd-r-bg-1"
+    {%if slide.slide == slide.parent|length%}disabled{%endif%}
+    onclick="feeds.loadYoutube({{slide.slide|add:1}})"
+    >
+        <i class="fas fa-angle-double-right"></i>
+    </button>
+</div>

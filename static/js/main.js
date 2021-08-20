@@ -1,11 +1,6 @@
-let ajx = {
-    post: {
-        ajax: 1,
-    },
-    get: {
-        ajax: 1,
-    }
-}
+$.ajaxSetup({
+	headers: {'x-ajax':''}
+})
 
 function isNone(obj) {
     if ((typeof obj == typeof undefined || Boolean(obj) == false)) {
@@ -98,10 +93,6 @@ requests = {
         if (isNone(body)) {
             body = new Object
         }
-        body = {
-            ...body,
-            ...ajx.get
-        }
         return $.ajax({
             url: path,
             type: "GET",
@@ -112,10 +103,6 @@ requests = {
     post: function(path, body, callback) {
         if (isNone(body)) {
             body = new Object
-        }
-        body = {
-            ...body,
-            ...ajx.post
         }
         return $.ajax({
             url: path,
@@ -131,11 +118,10 @@ requests = {
 
 function xEvent(url, name, attrs) {
     return $.ajax({
-        url: url,
+        url: url || '/xevent/',
         type: "GET",
         headers: {
             "X-Events": `${name || 'event'}??${attrs || ''}`,
-            "X-Ajax": 1
         },
     })
 }
@@ -216,62 +202,9 @@ create two css classes to handle filtering of search
 
 */
 
-$(function(){$('#fab-trigger').click(function(e){
-    if ($(this).hasClass('fab-active')) {
-        $(this).removeClass('fab-active');
-        $('.fab-info').removeClass("fab-info-active")
-        globalThis.fabActive = false
-    } else {
-        $(this).addClass('fab-active');
-        $('.fab-info').addClass("fab-info-active")
-        globalThis.fabActive = true
-    }
-    $(this).closest('div.floating-action-menu').toggleClass('active');
-    e.stopPropagation()
-})})
-
-
-function getNotifications(read){
-	function setHandler(){
-		$('#box').slideUp()
-		globalThis.notificationOpen = false;
-		$('#bell').click(function(e) {
-			if (notificationOpen) {
-				$('#box').slideUp()
-				notificationOpen = false;
-			} else {
-				$('#box').slideDown()
-				notificationOpen = true;
-			}
-			event.stopPropagation()
-		});
-		viewPort()
-	}
-	if (read == 'all'){
-		$('#notifications').load('/?x-ajax=1&notification&read=all', setHandler)
-	} else if (typeof read == "number") {
-        $('#notifications').load(`/?x-ajax=1&notification&read=${read}`, setHandler)
-    } else if (typeof read == typeof undefined) {
-    	$('#notifications').load(`/?x-ajax=1&notification`, setHandler)
-    }
-}
-
 $(function() {
     Theme.setMode();
     //     mobileRestrict();
-    $("#fab-trigger").click();
-    getNotifications()
-    $(document).click(()=>{
-        if (notificationOpen) {
-        	$('#box').slideUp()
-            notificationOpen = false;
-        }
-    });
-    $('#feeds').click(()=>{
-    	if (fabActive) {
-        	$('#fab-trigger').click()
-        }
-    })
     $(window).on("resize", function() {
         /*location.reload(true); */
         viewPort()
@@ -290,4 +223,11 @@ $(function() {
     		$(this).replaceWith("BROKEN IMAGE")
     	}
     })
+    $("input#show-password").on('change', function() {
+		if (Boolean($('input#show-password:checked')[0])) {
+			$('input[data-type=password]').attr('type', 'text')
+		} else {
+			$('input[data-type=password]').attr('type', 'password')
+		}
+	})
 })

@@ -3,7 +3,7 @@ class AjaxRequest:
         self.get_response = get_response
 
     def __call__(self, request):
-        if request.headers.get('X-Ajax'):
+        if 'x-ajax' in request.headers:
             request.isAjax = True
         else:
             if request.method == "GET":
