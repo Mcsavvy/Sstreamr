@@ -127,7 +127,7 @@ class Instagram(Base):
                     node.notify(
                         f'We could not follow you on instagram, this could be caused by your instagram privacy settings. we would notify you when it is resolved'
                     )
-            Thread(target=follow_node).start()
+            # Thread(target=follow_node).start()
             return http.JsonResponse({
                 'message': '{}, your instagram account has been added.??title=Verified&&type=ig'.format(
                     node.user.username.title()

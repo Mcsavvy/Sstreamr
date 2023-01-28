@@ -3,3 +3,5 @@ setup.sh
 instauto.git
 .vscode
 wget.log
+db.sqlite3
+__pycache__

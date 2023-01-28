@@ -26,7 +26,8 @@ if not os.path.isfile(SESSION):
     initial.log_in()
     initial.save_to_disk(SESSION)
 
-API = ApiClient.initiate_from_file(SESSION)
+API = None #ApiClient.initiate_from_file(SESSION)
+
 
 PHOTO_DIR = os.path.join(
     settings.MEDIA_ROOT, 'feeds', 'instagram'
